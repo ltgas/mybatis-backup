@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+    读取jdbc.propertis属性,
+    通过方法参数传递的属性具有最高优先级，
+    resource/url 属性中指定的配置文件次之，
+    最低优先级的则是 properties 元素中指定的属性
+    -->
+    <properties resource="jdbc.properties">
+        <property name="jdbc.username" value="root"/>
+        <property name="jdbc.password" value="admin888"/>
+    </properties>
+    <!--设置日志输出-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <!--注册实体类的别名-->
+    <typeAliases>
+        <!-- 批量实体别名注册:别名是类名的驼峰命名法(规范) -->
+        <package name="com.ltg.pojo"/>
+    </typeAliases>
+    <!--配置环境变量-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--
+    注册　mapper.xml 文件
+　     resource: 从 resource 目录下找指定的文件加载;
+       url: 使用绝对路径注册
+       class:  动态代理方式下的注册
+    -->
+    <mappers>
+        <mapper resource="com/ltg/mapper/BasicdataMapper.xml"/>
+    </mappers>
+</configuration>

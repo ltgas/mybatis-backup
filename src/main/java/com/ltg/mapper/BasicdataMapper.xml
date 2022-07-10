@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+mapper: 是整个文件的大标签，用来开始和结束 xml 文件
+　　属性：
+　　　namespace: 指定命名空间(相当于包名),用来区分不同 mapper.xml 文件中相同的 id 属性
+-->
+<mapper namespace="com.ltg.mapper.BasicdataMapper">
+    <!--
+         定义主键 ,非常重要。如果是多个字段,则定义多个id
+            property：主键在pojo中的属性名
+            column：主键在数据库中的列名
+    -->
+    <resultMap id="dataMap" type="Basicdata">
+        <result column="id" property="id"/>
+        <result column="sid" property="sid"/>
+        <result column="first_name" property="firstName"/>
+        <result column="last_name" property="lastName"/>
+        <result column="email" property="eMail"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+        <result column="member" property="member"/>
+        <result column="chinese_score" property="chineseScore"/>
+        <result column="math_score" property="mathScore"/>
+        <result column="english_score" property="englishScore"/>
+        <result column="political_score" property="politicalScore"/>
+        <result column="total_score" property="totalScore"/>
+        <result column="ip_address" property="ipAddress"/>
+        <result column="address" property="address"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="join_date" property="joinDate" javaType="java.util.Date" jdbcType="DATE"/>
+    </resultMap>
+    <!--
+    完成查询表中全部数据的功能
+    List<Dbbasicdata> queryAll();
+      resultType: 指定查询返回的结果集的类型，如果是集合，则必须是泛型的类型;
+      parameterType: 如果有参数,则通过它来指定参数的类型
+    -->
+    <select id="queryAll" resultMap="dataMap">
+        select *
+        from basicdata limit 0,50
+    </select>
+    <!--
+    按主键 id 查询信息:
+    basicdata queryById(int id);
+    -->
+    <select id="queryById" parameterType="int" resultMap="dataMap">
+        select id,sid,first_name,last_name,email,gender,age,member
+        from basicdata
+        where id = #{id}
+    </select>
+    <!--
+    按姓名 last_name 模糊查询
+    Basicdata queryByName(string name);
+    -->
+    <select id="queryByName" parameterType="String" resultMap="dataMap">
+        select id,sid,first_name,last_name,email,gender,age,member
+        from basicdata
+        where last_name like concat('%',#{name},'%')
+    </select>
+    <!--
+    按姓名 first_name、last_name 模糊查询
+    如果参数超过一个则 parameterType 不写
+    Basicdata queryByNearName(string name);
+    -->
+    <select id="queryByNearName" resultMap="dataMap">
+        select id,sid,first_name,last_name,email,gender,age,member
+        from basicdata
+        where ${columnName} like concat('%',#{columnValue},'%')
+    </select>
+</mapper>
