@@ -15,6 +15,7 @@
     </properties>
     <!--设置日志输出-->
     <settings>
+        <!--标准日志值'STDOUT_LOGGING',可以不用配置另的信息-->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
     <!--注册实体类的别名-->

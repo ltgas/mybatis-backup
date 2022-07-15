@@ -158,9 +158,6 @@ public class Basicdata implements Serializable {
         this.joinDate = joinDate;
     }
 
-    public Basicdata() {
-    }
-
     public Basicdata(Integer id, Integer sid, String firstName, String lastName, String eMail, Character gender, Integer age, Boolean member, Float chineseScore, Float mathScore, Float englishScore, Float politicalScore, Float totalScore, String ipAddress, String address, String contactPhone, Date joinDate) {
         this.id = id;
         this.sid = sid;
