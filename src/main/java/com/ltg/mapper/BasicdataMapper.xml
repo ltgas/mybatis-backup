@@ -39,7 +39,7 @@ mapper: 是整个文件的大标签，用来开始和结束 xml 文件
       parameterType: 如果有参数,则通过它来指定参数的类型
     -->
     <select id="queryAll" resultMap="dataMap">
-        select *
+        select id,sid,first_name,last_name,email,gender,age,member,chinese_score,math_score,english_score,political_score,total_score,ip_address,address,contact_phone,join_date
         from basicdata limit 0,50
     </select>
     <!--
@@ -47,7 +47,7 @@ mapper: 是整个文件的大标签，用来开始和结束 xml 文件
     basicdata queryById(int id);
     -->
     <select id="queryById" parameterType="int" resultMap="dataMap">
-        select id,sid,first_name,last_name,email,gender,age,member
+        select id,sid,first_name,last_name,email,gender,age,member,chinese_score,math_score,english_score,political_score
         from basicdata
         where id = #{id}
     </select>
@@ -56,7 +56,7 @@ mapper: 是整个文件的大标签，用来开始和结束 xml 文件
     Basicdata queryByName(string name);
     -->
     <select id="queryByName" parameterType="String" resultMap="dataMap">
-        select id,sid,first_name,last_name,email,gender,age,member
+        select id,sid,first_name,last_name,email,gender,age,member,chinese_score,math_score,english_score,political_score
         from basicdata
         where last_name like concat('%',#{name},'%')
     </select>
@@ -66,8 +66,26 @@ mapper: 是整个文件的大标签，用来开始和结束 xml 文件
     Basicdata queryByNearName(string name);
     -->
     <select id="queryByNearName" resultMap="dataMap">
-        select id,sid,first_name,last_name,email,gender,age,member
+        select id,sid,first_name,last_name,email,gender,age,member,chinese_score,math_score,english_score,political_score,total_score,ip_address
         from basicdata
         where ${columnName} like concat('%',#{columnValue},'%')
     </select>
+
+    <!-- 分页查询1 -->
+    <select id="queryByLimit" parameterType="map" resultMap="dataMap">
+        select id,sid,first_name,last_name,email,gender,age,member,chinese_score,math_score,english_score,political_score,total_score,ip_address
+        from basicdata limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 分页查询2 -->
+    <select id="queryByRowBounds" parameterType="map" resultMap="dataMap">
+        select id,sid,first_name,last_name,email,gender,age,member,chinese_score,math_score,english_score,political_score,total_score,ip_address
+        from basicdata
+    </select>
+
+    <!-- 增加一个成员 -->
+    <insert id="addBasicdataInfo" parameterType="Basicdata">
+        insert into basicdata(sid,first_name,last_name,email,gender,age,member,chinese_score,math_score,english_score,political_score,total_score,ip_address,address,contact_phone,join_date)
+            values(#{sid},#{firstName},#{lastName},#{eMail},#{gender},#{age},#{member},#{chineseScore},#{mathScore},#{englishScore},#{politicalScore},#{totalScore},#{ipAddress},#{address},#{contactPhone},#{joinDate,jdbcType=DATE})
+    </insert>
 </mapper>
